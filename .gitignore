@@ -15,6 +15,5 @@ gradle-app.setting
 
 *.log
 .idea/
-
-
-
+*.iml
+out/
