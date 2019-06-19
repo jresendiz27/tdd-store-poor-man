@@ -7,7 +7,7 @@ class ProductsRepositorySpec extends Specification {
     FileStorage globalStorage
 
     def setup() {
-        globalStorage = new FileStorage('/home/jresendiz/tienda.csv')
+        globalStorage = new FileStorage('/tmp/tienda.csv')
         globalStorage.ensureFile()
         globalStorage.addHeader(Product.csvHeader())
     }
