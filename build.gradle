@@ -8,14 +8,20 @@
 
 plugins {
     // Apply the groovy plugin to add support for Groovy
+    id "com.bmuschko.clover" version "2.2.3"
     id 'groovy'
 }
 
 dependencies {
     // Use the latest Groovy version for building this library
     compile 'org.codehaus.groovy:groovy-all:2.4.15'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
+
+    clover 'org.openclover:clover:4.3.1'
 
     // Use the awesome Spock testing and specification framework
+    testCompile 'cglib:cglib-nodep:3.1'
+    testCompile group: 'org.objenesis', name: 'objenesis', version: '1.2'
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 }
 
@@ -25,4 +31,30 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
     mavenCentral()
+}
+
+
+clover {
+    targetPercentage = '10%'
+
+    compiler {
+        encoding = 'UTF-8'
+    }
+
+    report {
+        html = true
+        filter = 'log,main,getters,setters'
+
+        // Support capturing test results from JUnix XML report
+        testResultsDir = project.tasks.getByName('test').reports.junitXml.destination
+        testResultsInclude = 'TEST-*.xml'
+
+        // Clover report nested columns support
+        columns {
+            coveredMethods format: 'longbar', min: '75'
+            coveredStatements format: '%'
+            coveredBranches format: 'raw'
+            totalPercentageCovered format: '%', scope: 'package'
+        }
+    }
 }
