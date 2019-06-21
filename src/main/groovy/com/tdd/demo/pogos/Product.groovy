@@ -4,7 +4,7 @@ import groovy.transform.ToString
 
 @ToString
 class Product {
-
+    // TODO sku should not be changed
     String sku
     int cantidad
     String nombre
@@ -28,6 +28,25 @@ class Product {
 
     void setPrecio(String precio) {
         this.precio = new BigDecimal(precio)
+    }
+
+    Map toMap() {
+        return [
+                sku     : this.sku,
+                cantidad: this.cantidad,
+                nombre  : this.nombre,
+                marca   : this.marca,
+                precio  : this.precio
+        ]
+    }
+
+    Product fromMap(Map map) {
+        sku = map.sku
+        cantidad = map.cantidad
+        nombre = map.nombre
+        marca = map.marca
+        precio = map.precio
+        return this
     }
 
 
